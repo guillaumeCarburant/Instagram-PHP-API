@@ -375,10 +375,12 @@ class Instagram
      *
      * @param string $name Valid tag name
      * @param int $limit Limit of returned results
+     * @param int $minTagID Return media before this min_tag_id
+     * @param int $maxTagID Return media after this max_tag_id
      *
      * @return mixed
      */
-    public function getTagMedia($name, $limit = 0)
+    public function getTagMedia($name, $limit = 0, $minTagID = null, $maxTagID = null)
     {
         $params = array();
 
@@ -386,6 +388,14 @@ class Instagram
             $params['count'] = $limit;
         }
 
+        if(is_int($minTagID)) {
+            $params['min_tag_id'] = $minTagID;
+        }
+        
+        if(is_int($maxTagID)) {
+            $params['max_tag_id'] = $maxTagID;
+        }
+        
         return $this->_makeCall('tags/' . $name . '/media/recent', false, $params);
     }
 
